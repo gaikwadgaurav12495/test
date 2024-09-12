@@ -3,63 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - HTTPD App</title>
+    <title>ServiceNow-like Dashboard - HTTPD App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #f4f7fa;
             margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2a3b4c;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+        nav {
+            width: 200px;
+            height: 100vh;
+            background-color: #37475e;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+            padding-top: 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #45566e;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        nav ul li:hover {
+            background-color: #576b8e;
         }
         .container {
-            background-color: #fff;
-            padding: 40px;
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 20px;
+        }
+        .widget {
+            background-color: white;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        h2 {
+        h3 {
+            margin: 0;
+            margin-bottom: 10px;
             color: #333;
-            text-align: center;
-            margin-bottom: 20px;
         }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+        .widget-content {
+            height: 150px;
+            background-color: #f0f4f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
 
+<header>
+    <h1>HTTPD App - ServiceNow-like Dashboard</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Incidents</a></li>
+        <li><a href="#">Tasks</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Settings</a></li>
+    </ul>
+</nav>
+
 <div class="container">
-    <h2>Login to HTTPD App</h2>
-    <form action="/login" method="POST">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="dashboard">
+        <div class="widget">
+            <h3>Incidents</h3>
+            <div class="widget-content">Incidents Overview</div>
+        </div>
+        <div class="widget">
+            <h3>Tasks</h3>
+            <div class="widget-content">Task Details</div>
+        </div>
+        <div class="widget">
+            <h3>Reports</h3>
+            <div class="widget-content">Reports Section</div>
+        </div>
+        <div class="widget">
+            <h3>Change Requests</h3>
+            <div class="widget-content">Change Requests Overview</div>
+        </div>
+        <div class="widget">
+            <h3>Performance Analytics</h3>
+            <div class="widget-content">Performance Graph</div>
+        </div>
+        <div class="widget">
+            <h3>Other Widgets</h3>
+            <div class="widget-content">Custom Widgets</div>
+        </div>
+    </div>
 </div>
 
 </body>
