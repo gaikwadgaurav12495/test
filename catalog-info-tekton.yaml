@@ -83,6 +83,28 @@ spec:
                     }
                   }
                 }
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful deployment",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "status": { "type": "string" },
+                          "message": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "500": {
+                  "description": "Server error"
+                }
               }
             }
           }
