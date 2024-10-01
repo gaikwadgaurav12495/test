@@ -47,7 +47,7 @@ spec:
   owner: group:default/dev-hub-team
   definition:
     type: json
-    value: | 
+    value: |
       {
         "openapi": "3.0.0",
         "info": {
