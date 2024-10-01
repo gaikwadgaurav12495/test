@@ -48,39 +48,7 @@ spec:
   definition:
     type: json
     value: |
-      {
-        "openapi": "3.0.0",
-        "info": {
-          "title": "Pipeline API",
-          "version": "1.0.0"
-        },
-        "paths": {
-          "/deploy": {
-            "post": {
-              "summary": "Deploy application",
-              "requestBody": {
-                "required": true,
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "repository-url": { "type": "string" },
-                        "image-name": { "type": "string" },
-                        "deployment-name": { "type": "string" },
-                        "configmap-name": { "type": "string" },
-                        "pvc-name": { "type": "string" },
-                        "namespace": { "type": "string" }
-                      },
-                      "required": ["repository-url", "image-name", "deployment-name", "configmap-name", "pvc-name", "namespace"]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      "{\"openapi\": \"3.0.0\", \"info\": {\"title\": \"Pipeline API\", \"version\": \"1.0.0\"}, \"paths\": {\"/deploy\": {\"post\": {\"summary\": \"Deploy application\", \"requestBody\": {\"required\": true, \"content\": {\"application/json\": {\"schema\": {\"type\": \"object\", \"properties\": {\"repository-url\": {\"type\": \"string\"}, \"image-name\": {\"type\": \"string\"}, \"deployment-name\": {\"type\": \"string\"}, \"configmap-name\": {\"type\": \"string\"}, \"pvc-name\": {\"type\": \"string\"}, \"namespace\": {\"type\": \"string\"}}, \"required\": [\"repository-url\", \"image-name\", \"deployment-name\", \"configmap-name\", \"pvc-name\", \"namespace\"]}}}}}}}}"
 
 ---
 apiVersion: backstage.io/v1alpha1
