@@ -66,6 +66,7 @@ metadata:
   name: dev-hub-team
   description: "Development Hub Team"
 spec:
+  type: team
   members:
     - user: gaikwadgaurav12495
     - user: anantha@ae.ibm.com
