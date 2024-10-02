@@ -6,6 +6,7 @@ metadata:
   annotations:
     backstage.io/kubernetes-id: tekton-demo
     backstage.io/kubernetes-namespace: backstage
+    janus-idp.io/tekton-pipeline: deploy-app-pipeline
     janus-idp.io/tekton-enabled: 'true'
     backstage.io/kubernetes-label-selector: 'app=web'
     app.openshift.io/connects-to: '[{"apiVersion":"apps.openshift.io/v1","kind":"Deployment"}]'
@@ -15,6 +16,7 @@ metadata:
     tektonci/build-namespace: backstage
     argocd/app-name: backstage
     tekton.dev/pipeline: "true"
+    backstage.io/pipeline-trigger: "true" 
   labels:
     backstage.io/kubernetes-id: tekton-demo
   tags:
