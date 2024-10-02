@@ -45,8 +45,6 @@ metadata:
     - backstage
 spec:
   owner: "dev-hub-team"
-  dependsOn:
-    - component: deploy-app-pipeline
 
 ---
 apiVersion: backstage.io/v1alpha1
