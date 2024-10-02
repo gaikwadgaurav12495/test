@@ -46,6 +46,8 @@ metadata:
     - backstage
 spec:
   owner: "dev-hub-team"
+  dependsOn:
+    - component: deploy-app-pipeline
 
 ---
 apiVersion: backstage.io/v1alpha1
@@ -57,3 +59,16 @@ metadata:
     - pipeline-demo
 spec:
   owner: "dev-hub-team"
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: dev-hub-team
+  description: "Development Hub Team"
+spec:
+  members:
+    - user: gaikwadgaurav12495
+    - user: anantha@ae.ibm.com
+---    
+
+    
