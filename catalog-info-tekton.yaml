@@ -5,6 +5,7 @@ metadata:
   description: "Deploy App with OpenShift Pipeline"
   annotations:
     backstage.io/kubernetes-id: tekton-demo
+    #backstage.io/kubernetes-id: backstage
     backstage.io/kubernetes-namespace: backstage
     janus-idp.io/tekton-pipeline: deploy-app-pipeline
     janus-idp.io/tekton-enabled: 'true'
@@ -19,6 +20,8 @@ metadata:
     backstage.io/pipeline-trigger: "true" 
   labels:
     backstage.io/kubernetes-id: tekton-demo
+    #backstage.io/kubernetes-id: backstage
+    backstage.io/kubernetes-namespace: backstage
   tags:
     - tekton
     - pipeline
