@@ -1,0 +1,71 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: deploy-application-template
+  title: Deploy Application with Tekton Pipeline
+  description: Template to deploy an application using Tekton Pipeline
+  tags:
+    - tekton
+    - deployment
+spec:
+  owner: gaikwadgaurav12495
+  type: service
+  parameters:
+    - title: Application Configuration
+      required:
+        - namespace
+        - applicationName
+        - gitRepoUrl
+        - pvcName  
+      properties:
+        namespace:
+          title: Namespace
+          type: string
+          description: The namespace where the application will be deployed.
+        applicationName:
+          title: Application Name
+          type: string
+          description: The name of the application to be deployed.
+        gitRepoUrl:
+          title: Git Repository URL
+          type: string
+          description: The Git repository URL for the application.
+        pvcName:
+          title: PersistentVolumeClaim
+          type: string
+          description: The name of the PVC to use for the repository.
+
+  steps:
+    - id: generate
+      name: Generate Tekton Pipeline Resources
+      action: scaffolder.execute
+      input:
+        script: |
+          echo "Creating Tekton Pipeline YAML"
+          cat <<EOF > pipeline.yaml
+          apiVersion: tekton.dev/v1beta1
+          kind: PipelineRun
+          metadata:
+            name: ${{parameters.applicationName}}-pipeline-run
+            namespace: ${{parameters.namespace}}
+          spec:
+            pipelineRef:
+              name: deploy-app-pipeline
+            workspaces:
+              - name: repo-workspace
+                persistentVolumeClaim:
+                  claimName: ${{parameters.pvcName}}  # Dynamic PVC
+            params:
+              - name: repository-url
+                value: ${{parameters.gitRepoUrl}}
+              - name: deployment-name
+                value: ${{parameters.applicationName}}
+              - name: namespace
+                value: ${{parameters.namespace}}
+          EOF
+    - id: apply
+      name: Apply Pipeline Resources
+      action: kubernetes.apply
+      input:
+        manifests:
+          - ./pipeline.yaml
