@@ -1,4 +1,4 @@
-apiVersion: scaffolder.backstage.io/v1beta3
+piVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: deploy-application-template
@@ -42,6 +42,10 @@ spec:
       input:
         script: |
           echo "Creating Tekton Pipeline YAML"
+          echo "Using Namespace: ${{parameters.namespace}}"
+          echo "Application Name: ${{parameters.applicationName}}"
+          echo "Git Repo URL: ${{parameters.gitRepoUrl}}"
+          echo "PVC Name: ${{parameters.pvcName}}"
           cat <<EOF > pipeline.yaml
           apiVersion: tekton.dev/v1beta1
           kind: PipelineRun
@@ -54,7 +58,7 @@ spec:
             workspaces:
               - name: repo-workspace
                 persistentVolumeClaim:
-                  claimName: ${{parameters.pvcName}}  # Dynamic PVC
+                  claimName: ${{parameters.pvcName}}
             params:
               - name: repository-url
                 value: ${{parameters.gitRepoUrl}}
