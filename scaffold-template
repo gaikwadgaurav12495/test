@@ -1,44 +1,48 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: deploy-app-template
-  title: Deploy Application Template
-  description: Template for deploying applications using OpenShift pipelines in multiple namespaces.
+  name: deploy-app-pipeline
+  title: Deploy Application via Pipeline
+  description: A template to deploy applications using the OpenShift pipeline across multiple namespaces.
 spec:
   owner: backstage/dev-hub-team
   type: service
 
+  # Parameters for user input in the frontend
   parameters:
-    - title: Application Details
+    - title: Deployment Information
       required:
-        - appName
-        - pvcName
+        - namespace
+        - deploymentName
         - configMapName
+        - workspaceName
+        - repoUrl
       properties:
-        appName:
-          title: Application Name
+        namespace:
+          title: Namespace Name
           type: string
-          description: Unique name of the application to deploy
+          description: Specify the Kubernetes namespace for the deployment
           ui:autofocus: true
           ui:options:
             rows: 1
-        pvcName:
-          title: PVC Name
+        deploymentName:
+          title: Deployment Name
           type: string
-          description: Name of the Persistent Volume Claim to use
+          description: Unique name of the deployment
           ui:options:
             rows: 1
         configMapName:
           title: ConfigMap Name
           type: string
-          description: Name of the ConfigMap to use
+          description: Specify the name of the ConfigMap to use
           ui:options:
             rows: 1
-
-    - title: Choose a Repository
-      required:
-        - repoUrl
-      properties:
+        workspaceName:
+          title: Workspace Name
+          type: string
+          description: Name of the workspace for the application
+          ui:options:
+            rows: 1
         repoUrl:
           title: Repository Location
           type: string
@@ -47,17 +51,7 @@ spec:
             allowedHosts:
               - github.com
 
-    - title: Select Namespace
-      required:
-        - namespace
-      properties:
-        namespace:
-          title: Namespace
-          type: string
-          description: Namespace where the application will be deployed
-          ui:options:
-            rows: 1
-
+  # Steps to be executed in the backend
   steps:
     - id: fetch-base
       name: Fetch Base
@@ -65,14 +59,27 @@ spec:
       input:
         url: ./template
         values:
-          appName: ${{ parameters.appName }}
-          pvcName: ${{ parameters.pvcName }}
-          configMapName: ${{ parameters.configMapName }}
           namespace: ${{ parameters.namespace }}
+          deploymentName: ${{ parameters.deploymentName }}
+          configMapName: ${{ parameters.configMapName }}
+          workspaceName: ${{ parameters.workspaceName }}
+          repoUrl: ${{ parameters.repoUrl }}
 
     - id: register
-      name: Register
+      name: Register Component
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['fetch-base'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps.fetch-base.output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
+
+    - id: deploy-pipeline
+      name: Deploy Application
+      action: tekton:run
+      input:
+        pipeline: deploy-app-pipeline
+        parameters:
+          namespace: ${{ parameters.namespace }}
+          deploymentName: ${{ parameters.deploymentName }}
+          configMapName: ${{ parameters.configMapName }}
+          workspaceName: ${{ parameters.workspaceName }}
+          gitUrl: ${{ parameters.repoUrl }}
