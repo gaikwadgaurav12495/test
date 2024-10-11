@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: scaffold-pipeline
+  annotations:
+    github.com/project-slug: gaikwadgaurav12495/test
+spec:
+  type: other
+  lifecycle: unknown
+  owner: dev-hub-team
