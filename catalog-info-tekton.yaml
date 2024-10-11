@@ -5,31 +5,24 @@ metadata:
   description: "Deploy App with OpenShift Pipeline"
   annotations:
     backstage.io/kubernetes-id: tekton-demo
-    #backstage.io/kubernetes-id: backstage
-    backstage.io/kubernetes-namespace: backstage
+    backstage.io/kubernetes-namespace: pipeline-demo  # Update to your namespace if needed
     janus-idp.io/tekton-pipeline: deploy-app-pipeline
     janus-idp.io/tekton-enabled: 'true'
     backstage.io/kubernetes-label-selector: 'app=web'
     app.openshift.io/connects-to: '[{"apiVersion":"apps.openshift.io/v1","kind":"Deployment"}]'
-    backstage.io/source-location: url:https://github.com/jay2tinku/techzone-pipeline-demo.git
-    backstage.io/techdocs-ref: url:https://github.com/jay2tinku/techzone-pipeline-demo.git
+    backstage.io/source-location: url:https://github.com/gaikwadgaurav12495/test.git
+    backstage.io/techdocs-ref: url:https://github.com/gaikwadgaurav12495/test.git
     janus-idp.io/tekton: backstage
-    tektonci/build-namespace: backstage
-    argocd/app-name: backstage
-    tekton.dev/pipeline: "true"
+    tekton.dev/pipeline: "deploy-app-pipeline"  
     backstage.io/pipeline-trigger: "true" 
   labels:
     backstage.io/kubernetes-id: tekton-demo
-    #backstage.io/kubernetes-id: backstage
-    backstage.io/kubernetes-namespace: backstage
+    backstage.io/kubernetes-namespace: pipeline-demo  
   tags:
     - tekton
     - pipeline
     - demo
   links:
-    - url: https://console-openshift-console.apps.66a64ff6d70fa4001ee0caae.ocp.techzone.ibm.com/dev-pipelines/ns/backstage
-      title: OpenShift Pipelines (Backstage)
-      icon: web
     - url: https://console-openshift-console.apps.66a64ff6d70fa4001ee0caae.ocp.techzone.ibm.com/dev-pipelines/ns/pipeline-demo
       title: OpenShift Pipelines (Pipeline-Demo)
       icon: web
@@ -37,7 +30,7 @@ spec:
   type: service
   lifecycle: production
   owner: "dev-hub-team"
-  
+
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
@@ -59,6 +52,7 @@ metadata:
     - pipeline-demo
 spec:
   owner: "dev-hub-team"
+
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Group
@@ -69,7 +63,4 @@ spec:
   type: team
   members:
     - gaikwadgaurav12495
-  children: [] 
----    
-
-    
+  children: []
