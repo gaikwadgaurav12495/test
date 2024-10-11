@@ -1,0 +1,34 @@
+apiVersion: backstage.io/v1alpha1
+kind: Template
+metadata:
+  name: app-deploy-template
+  description: "Template for deploying applications to OpenShift"
+spec:
+  type: service
+  parameters:
+    - title: Application Name
+      required: true
+      type: string
+    - title: Git Repository URL
+      required: true
+      type: string
+    - title: Target Namespace
+      required: true
+      type: string
+    - title: PVC Name
+      required: true
+      type: string  # PVC Name parameter
+    - title: ConfigMap Name
+      required: true
+      type: string  # ConfigMap Name parameter
+  steps:
+    - action: tekton:run
+      id: deploy
+      input:
+        pipelineName: deploy-app-pipeline
+        params:
+          appName: ${{ parameters.applicationName }}
+          repoUrl: ${{ parameters.gitRepository }}
+          namespace: ${{ parameters.targetNamespace }}
+          pvcName: ${{ parameters.pvcName }}  # Pass PVC Name to the pipeline
+          configMapName: ${{ parameters.configMapName }}  # Pass ConfigMap Name to the pipeline
