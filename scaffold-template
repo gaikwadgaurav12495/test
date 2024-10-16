@@ -8,21 +8,19 @@ spec:
   owner: backstage/dev-hub-team
   type: service
 
-  # Parameters for user input in the frontend
   parameters:
     - title: Deployment Information
       required:
-        - namespace
+        - repositoryUrl
         - deploymentName
         - configMapName
-        - workspaceName
-        - repoUrl
+        - pvcName
+        - namespace
       properties:
-        namespace:
-          title: Namespace Name
+        repositoryUrl:
+          title: Repository URL
           type: string
-          description: Specify the Kubernetes namespace for the deployment
-          ui:autofocus: true
+          description: URL of the Git repository to clone
           ui:options:
             rows: 1
         deploymentName:
@@ -37,33 +35,32 @@ spec:
           description: Specify the name of the ConfigMap to use
           ui:options:
             rows: 1
-        workspaceName:
-          title: Workspace Name
+        pvcName:
+          title: PVC Name
           type: string
-          description: Name of the workspace for the application
+          description: Specify the name of the PVC to use for the repository
           ui:options:
             rows: 1
-        repoUrl:
-          title: Repository Location
+        namespace:
+          title: Namespace Name
           type: string
-          ui:field: RepoUrlPicker
+          description: Specify the Kubernetes namespace for the deployment
+          ui:autofocus: true
           ui:options:
-            allowedHosts:
-              - github.com
+            rows: 1
 
-  # Steps to be executed in the backend
   steps:
     - id: fetch-base
-      name: Fetch Base
+      name: Fetch Base Template
       action: fetch:template
       input:
         url: ./template
         values:
-          namespace: ${{ parameters.namespace }}
+          repositoryUrl: ${{ parameters.repositoryUrl }}
           deploymentName: ${{ parameters.deploymentName }}
           configMapName: ${{ parameters.configMapName }}
-          workspaceName: ${{ parameters.workspaceName }}
-          repoUrl: ${{ parameters.repoUrl }}
+          pvcName: ${{ parameters.pvcName }}
+          namespace: ${{ parameters.namespace }}
 
     - id: register
       name: Register Component
@@ -78,8 +75,9 @@ spec:
       input:
         pipeline: deploy-app-pipeline
         parameters:
+          repository-url: ${{ parameters.repositoryUrl }}
+          image-name: "registry.redhat.io/rhel8/httpd-24:1-335.1724231549"  # Default value
+          deployment-name: ${{ parameters.deploymentName }}
+          configmap-name: ${{ parameters.configMapName }}
+          pvc-name: ${{ parameters.pvcName }}
           namespace: ${{ parameters.namespace }}
-          deploymentName: ${{ parameters.deploymentName }}
-          configMapName: ${{ parameters.configMapName }}
-          workspaceName: ${{ parameters.workspaceName }}
-          gitUrl: ${{ parameters.repoUrl }}
